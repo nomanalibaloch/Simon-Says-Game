@@ -5,19 +5,21 @@ let btns = ["red", "yellow", "green", "purple"];
 let started = false;
 let level = 0;
 
-document.addEventListener("touchstart", function () {
+function startGame() {
     if (!started) {
         console.log("Game is started");
         started = true;
         levelUp();
     }
+}
+
+document.addEventListener("touchend", function (event) {
+    event.preventDefault(); 
+    startGame();
 });
+
 document.addEventListener("click", function () {
-    if (!started) {
-        console.log("Game is started");
-        started = true;
-        levelUp();
-    }
+    startGame();
 });
 
 function levelUp() {
@@ -73,8 +75,10 @@ function btnPress() {
 let allBtns = document.querySelectorAll(".btn");
 for (let btn of allBtns) {
     btn.addEventListener("click", btnPress);
-
-    btn.addEventListener("touchstart", btnPress);
+    btn.addEventListener("touchend", function (event) {
+        event.preventDefault(); 
+        btnPress.call(this); 
+    });
 }
 
 function reset() {
